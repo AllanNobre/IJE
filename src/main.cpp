@@ -58,6 +58,32 @@ int main(int, char**)
     SDL_SetRenderDrawColor(canvas, 0xff, 0xff, 0xff, 0xff); // White
 
 
+    // ===== Load Texture =====
+    INFO("Load Texture");
+    SDL_Texture * play_button_texture = NULL;
+
+    SDL_Surface * image = NULL;
+    image = IMG_Load("assets/sprites/playbutton.png");
+
+    if (image == NULL)
+    {
+        SDL_IMG_ERROR("Can't load sprite");
+        std::exit(EXIT_FAILURE);
+    }
+
+    play_button_texture = SDL_CreateTextureFromSurface(canvas, image);
+
+    if (play_button_texture == NULL)
+    {
+        SDL_ERROR("Can't create texture from image");
+        std::exit(EXIT_FAILURE);
+    }
+
+    int play_button_w = image->w;
+    int play_button_h = image->h;
+
+    SDL_FreeSurface(image);
+    image = NULL;
 
     // ===== Main Loop =====
 
@@ -76,6 +102,10 @@ int main(int, char**)
 
         // Draw
         SDL_RenderClear(canvas);
+
+        SDL_Rect renderQuad = {10, 10, play_button_w, play_button_h};
+        SDL_RenderCopy(canvas, play_button_texture, NULL, &renderQuad);
+
         SDL_RenderPresent(canvas);
     }
 
@@ -86,6 +116,10 @@ int main(int, char**)
     // ===== Shutdown =====
 
     INFO("Shutdown");
+
+    INFO("Destroy texture");
+    SDL_DestroyTexture(play_button_texture);
+    play_button_texture = NULL;
 
     INFO("Destroy canvas");
     SDL_DestroyRenderer(canvas);
