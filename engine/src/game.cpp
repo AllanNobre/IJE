@@ -128,6 +128,32 @@ void Game::run()
         SDL_FreeSurface(image);
         image = NULL;
 
+        // ===== Load Texture =====
+        INFO("Load Texture");
+        SDL_Texture * player_texture = NULL;
+
+        image = IMG_Load("assets/sprites/player.png");
+
+        if (image == NULL)
+        {
+            SDL_IMG_ERROR("Can't load sprite");
+            std::exit(EXIT_FAILURE);
+        }
+
+        player_texture = SDL_CreateTextureFromSurface(m_canvas, image);
+
+        if (player_texture == NULL)
+        {
+            SDL_ERROR("Can't create texture from image");
+            std::exit(EXIT_FAILURE);
+        }
+
+        int player_w = image->w;
+        int player_h = image->h;
+
+        SDL_FreeSurface(image);
+        image = NULL;
+
         // ===== Main Loop =====
         bool close_game = false;
         while(!close_game)
@@ -142,6 +168,9 @@ void Game::run()
 
             SDL_Rect renderQuad = {10, 10, play_button_w, play_button_h};
             SDL_RenderCopy(m_canvas, play_button_texture, NULL, &renderQuad);
+
+            SDL_Rect player_renderQuad = {150, 10, player_w, player_h};
+            SDL_RenderCopy(m_canvas, player_texture, NULL, &player_renderQuad);
 
             SDL_RenderPresent(m_canvas);
         }
