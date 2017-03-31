@@ -101,63 +101,19 @@ void Game::run()
     {
         INFO("Start game loop");
 
-        // ===== Load Texture =====
-        INFO("Load Texture");
-        SDL_Texture * play_button_texture = NULL;
-
-        SDL_Surface * image = NULL;
-        image = IMG_Load("assets/sprites/playbutton.png");
-
-        if (image == NULL)
-        {
-            SDL_IMG_ERROR("Can't load sprite");
-            std::exit(EXIT_FAILURE);
-        }
-
-        play_button_texture = SDL_CreateTextureFromSurface(m_canvas, image);
-
-        if (play_button_texture == NULL)
-        {
-            SDL_ERROR("Can't create texture from image");
-            std::exit(EXIT_FAILURE);
-        }
-
-        int play_button_w = image->w;
-        int play_button_h = image->h;
-
-        SDL_FreeSurface(image);
-        image = NULL;
-
-        // ===== Load Texture =====
-        INFO("Load Texture");
-        SDL_Texture * player_texture = NULL;
-
-        image = IMG_Load("assets/sprites/player.png");
-
-        if (image == NULL)
-        {
-            SDL_IMG_ERROR("Can't load sprite");
-            std::exit(EXIT_FAILURE);
-        }
-
-        player_texture = SDL_CreateTextureFromSurface(m_canvas, image);
-
-        if (player_texture == NULL)
-        {
-            SDL_ERROR("Can't create texture from image");
-            std::exit(EXIT_FAILURE);
-        }
-
-        int player_w = image->w;
-        int player_h = image->h;
-
-        SDL_FreeSurface(image);
-        image = NULL;
-
         // ===== Main Loop =====
         bool close_game = false;
+
+        if (m_scene == NULL)
+        {
+            WARN("No scenes to run!");
+            close_game = true;
+        }
+
         while(!close_game)
         {
+            if(handle_scene_changes() == false) break;
+
             SDL_Event evt;
             while(SDL_PollEvent(&evt) != 0)
             {
@@ -166,20 +122,12 @@ void Game::run()
 
             SDL_RenderClear(m_canvas);
 
-            SDL_Rect renderQuad = {10, 10, play_button_w, play_button_h};
-            SDL_RenderCopy(m_canvas, play_button_texture, NULL, &renderQuad);
-
-            SDL_Rect player_renderQuad = {150, 10, player_w, player_h};
-            SDL_RenderCopy(m_canvas, player_texture, NULL, &player_renderQuad);
+            m_scene->draw(m_canvas);
 
             SDL_RenderPresent(m_canvas);
         }
 
         INFO("Cleaning up resources...");
-
-        INFO("Destroy texture");
-        SDL_DestroyTexture(play_button_texture);
-        play_button_texture = NULL;
     }
 
     INFO("Game Shutdown");
@@ -200,4 +148,63 @@ void Game::set_background_color(int r, int g, int b, int a)
                                m_background_color.r, m_background_color.b,
                                m_background_color.g, m_background_color.a);
     }
+}
+
+bool Game::add_scene(Scene & scene)
+{
+    auto id = scene.name();
+    INFO("Add scene " << id);
+
+    if (m_scenes.find(id) != m_scenes.end())
+    {
+        WARN("Scene " << id << " already exists!");
+        return false;
+    }
+
+    m_scenes[id] = &scene;
+
+    if (m_scene == NULL) change_scene(id);
+
+    return true;
+}
+
+bool Game::change_scene(const std::string & id)
+{
+    INFO("Change scene to " << id);
+
+    if (m_scenes.find(id) == m_scenes.end())
+    {
+        WARN("Scene " << id << " not found!");
+        return false;
+    }
+
+    m_last_scene = m_scene;
+    m_scene = m_scenes[id];
+    m_scene_changing = true;
+    return true;
+}
+
+bool Game::handle_scene_changes()
+{
+    if (m_scene_changing)
+    {
+        if (m_scene == NULL)
+        {
+            WARN("No scenes to run!");
+            return false;
+        }
+        else
+        {
+            INFO("Scenes changing from " <<
+                 (m_last_scene ? m_last_scene->name() : "NULL") << " to " <<
+                 m_scene->name() << "...");
+
+            if(m_last_scene) m_last_scene->shutdown();
+            m_scene->init(m_canvas);
+
+            m_scene_changing = false;
+        }
+    }
+
+    return true;
 }
