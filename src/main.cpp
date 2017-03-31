@@ -2,6 +2,8 @@
 #include "log.h"
 #include "sdl_log.h"
 
+#include "gameglobals.hpp"
+
 int main(int, char**)
 {
     // ===== Init dependencies =====
@@ -28,12 +30,12 @@ int main(int, char**)
 
     INFO("Create Window");
     SDL_Window * window = SDL_CreateWindow(
-        "Prince Rescue",        // Title
-        SDL_WINDOWPOS_CENTERED, // Position x. SDL_WINDOWPOS_UNDEFINED
-        SDL_WINDOWPOS_CENTERED, // Position y. SDL_WINDOWPOS_UNDEFINED
-        400,                    // width
-        400,                    // height
-        SDL_WINDOW_SHOWN        // Window flags, SDL_WindowFlags for more
+        globals::game_name.c_str(),  // Title
+        SDL_WINDOWPOS_CENTERED,      // Position x. SDL_WINDOWPOS_UNDEFINED
+        SDL_WINDOWPOS_CENTERED,      // Position y. SDL_WINDOWPOS_UNDEFINED
+        globals::window_size.first,  // width
+        globals::window_size.second, // heigth
+        SDL_WINDOW_SHOWN             // Window flags, SDL_WindowFlags for more
     );
 
     if (window == NULL)
