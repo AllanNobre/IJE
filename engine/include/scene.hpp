@@ -5,7 +5,6 @@
 #include <unordered_map>
 
 #include "gameobject.hpp"
-#include "sdl2include.h"
 
 namespace engine {
 
@@ -22,10 +21,10 @@ public:
     GameObject & get_game_object(const std::string & id);
     bool remove_game_object(const std::string & id);
 
-    virtual bool init(SDL_Renderer * canvas);
+    virtual bool init();
     virtual bool shutdown();
 
-    virtual bool draw(SDL_Renderer * canvas);
+    virtual bool draw();
 
     inline std::string name() const { return m_name; }
 

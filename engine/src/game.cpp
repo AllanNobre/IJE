@@ -5,6 +5,14 @@
 
 using namespace engine;
 
+Game Game::instance;
+
+void Game::set_properties(std::string name, std::pair<int, int> window_size)
+{
+    m_name = name;
+    m_window_size = window_size;
+}
+
 bool setup_sdl()
 {
     INFO("Setup SDL");
@@ -122,7 +130,7 @@ void Game::run()
 
             SDL_RenderClear(m_canvas);
 
-            m_scene->draw(m_canvas);
+            m_scene->draw();
 
             SDL_RenderPresent(m_canvas);
         }
@@ -200,7 +208,7 @@ bool Game::handle_scene_changes()
                  m_scene->name() << "...");
 
             if(m_last_scene) m_last_scene->shutdown();
-            m_scene->init(m_canvas);
+            m_scene->init();
 
             m_scene_changing = false;
         }

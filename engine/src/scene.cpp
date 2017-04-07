@@ -44,14 +44,14 @@ bool Scene::remove_game_object(const std::string & id)
     return true;
 }
 
-bool Scene::init(SDL_Renderer * canvas)
+bool Scene::init()
 {
     INFO("Init scene " << m_name);
 
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->init(canvas) == false) return false;
+        if (obj->init() == false) return false;
     }
 
     return true;
@@ -70,12 +70,12 @@ bool Scene::shutdown()
     return true;
 }
 
-bool Scene::draw(SDL_Renderer * canvas)
+bool Scene::draw()
 {
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->draw(canvas) == false) return false;
+        if (obj->draw() == false) return false;
     }
 
     return true;

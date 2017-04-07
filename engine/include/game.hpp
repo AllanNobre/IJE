@@ -10,13 +10,14 @@
 
 namespace engine {
 
+static const std::string DEFAULT_GAME_NAME = "Game";
+static const std::pair<int, int> DEFAULT_WINDOW_SIZE(100, 100);
+
 class Game {
 public:
-    Game(std::string name, std::pair<int, int> window_size)
-        : m_name(name), m_window_size(window_size),
-          m_window(NULL), m_canvas(NULL),
-          m_background_color({0xff, 0xff, 0xff, 0xff}),
-          m_scene(NULL), m_last_scene(NULL), m_scene_changing(false) {}
+    static Game instance;
+
+    void set_properties(std::string name, std::pair<int, int> window_size);
 
     void run();
     void set_background_color(int r, int g, int b, int a);
@@ -24,7 +25,15 @@ public:
     bool add_scene(Scene & scene);
     bool change_scene(const std::string & id);
 
+    inline SDL_Renderer * canvas() { return m_canvas; }
+
 private:
+    Game()
+        : m_name(DEFAULT_GAME_NAME), m_window_size(DEFAULT_WINDOW_SIZE),
+          m_window(NULL), m_canvas(NULL),
+          m_background_color({0xff, 0xff, 0xff, 0xff}),
+          m_scene(NULL), m_last_scene(NULL), m_scene_changing(false) {}
+
     std::string         m_name;
     std::pair<int, int> m_window_size;
 

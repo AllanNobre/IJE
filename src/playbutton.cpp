@@ -1,11 +1,12 @@
 #include "playbutton.hpp"
 
+#include "game.hpp"
 #include "log.h"
 #include "sdl_log.h"
 
-bool PlayButton::init(SDL_Renderer * canvas)
+bool PlayButton::init()
 {
-    engine::GameObject::init(canvas);
+    engine::GameObject::init();
 
     // ===== Load Texture =====
     INFO("Load Texture");
@@ -19,7 +20,8 @@ bool PlayButton::init(SDL_Renderer * canvas)
         return false;
     }
 
-    m_texture = SDL_CreateTextureFromSurface(canvas, image);
+    m_texture = SDL_CreateTextureFromSurface(engine::Game::instance.canvas(),
+                                             image);
 
     if (m_texture == NULL)
     {
@@ -47,10 +49,10 @@ bool PlayButton::shutdown()
     return true;
 }
 
-bool PlayButton::draw(SDL_Renderer * canvas)
+bool PlayButton::draw()
 {
     SDL_Rect renderQuad = {x, y, w, h};
-    SDL_RenderCopy(canvas, m_texture, NULL, &renderQuad);
+    SDL_RenderCopy(engine::Game::instance.canvas(), m_texture, NULL, &renderQuad);
 
     return true;
 }

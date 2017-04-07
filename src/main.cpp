@@ -8,7 +8,7 @@ using namespace engine;
 
 int main(int, char**)
 {
-    Game game(globals::game_name, globals::window_size);
+    Game::instance.set_properties(globals::game_name, globals::window_size);
 
     Scene menuScene("Menu");
     PlayButton playButton;
@@ -16,9 +16,9 @@ int main(int, char**)
     playButton.y = 10;
     menuScene.add_game_object(playButton);
 
-    game.add_scene(menuScene);
+    Game::instance.add_scene(menuScene);
 
-    game.run();
+    Game::instance.run();
 
     return 0;
 }

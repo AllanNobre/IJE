@@ -4,7 +4,7 @@
 
 using namespace engine;
 
-bool GameObject::init(SDL_Renderer *)
+bool GameObject::init()
 {
     INFO("Init game object " << m_name);
 
@@ -18,7 +18,7 @@ bool GameObject::shutdown()
     return true;
 }
 
-bool GameObject::draw(SDL_Renderer *)
+bool GameObject::draw()
 {
     return true;
 }

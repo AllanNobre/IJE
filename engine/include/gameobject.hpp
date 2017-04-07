@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include "sdl2include.h"
-
 namespace engine {
 
 static const std::string INVALID_GAME_OBJECT_NAME = "INVALID_GAME_OBJECT";
@@ -17,10 +15,10 @@ public:
 
     virtual ~GameObject() {}
 
-    virtual bool init(SDL_Renderer *);
+    virtual bool init();
     virtual bool shutdown();
 
-    virtual bool draw(SDL_Renderer *);
+    virtual bool draw();
 
     inline std::string name()  const { return m_name; }
 
