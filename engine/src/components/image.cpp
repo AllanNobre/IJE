@@ -1,4 +1,4 @@
-#include "imagecomponent.hpp"
+#include "components/image.hpp"
 
 #include "game.hpp"
 #include "log.h"

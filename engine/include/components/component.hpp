@@ -1,5 +1,5 @@
-#ifndef __ENGINE_COMPONENT__
-#define __ENGINE_COMPONENT__
+#ifndef __ENGINE_COMPONENTS_COMPONENT__
+#define __ENGINE_COMPONENTS_COMPONENT__
 
 namespace engine {
 

@@ -7,8 +7,7 @@
 #include <typeinfo>
 #include <unordered_map>
 
-#include "component.hpp"
-#include "imagecomponent.hpp"
+#include "components/component.hpp"
 
 namespace engine {
 

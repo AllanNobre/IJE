@@ -1,7 +1,8 @@
 #include "game.hpp"
 #include "gameobject.hpp"
 #include "scene.hpp"
-#include "imagecomponent.hpp"
+#include "components/image.hpp"
+#include "components/text.hpp"
 
 #include "gameglobals.hpp"
 
@@ -18,8 +19,11 @@ int main(int, char**)
 
     GameObject playButton("Play Button");
     ImageComponent playButtonImage(playButton, "assets/sprites/playbutton.png");
+    TextComponent text(playButton, "Bem Vindo!", "assets/fonts/font.ttf", 42);
+    text.enable_high_quality();
 
     playButton.add_component(playButtonImage);
+    playButton.add_component(text);
     menu.add_game_object(playButton);
 
     // Game loop
