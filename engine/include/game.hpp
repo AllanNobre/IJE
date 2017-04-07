@@ -7,6 +7,7 @@
 
 #include "scene.hpp"
 #include "sdl2include.h"
+#include "timer.hpp"
 
 namespace engine {
 
@@ -27,7 +28,8 @@ public:
 
     static Game instance;
 
-    void set_properties(std::string name, std::pair<int, int> window_size);
+    void set_properties(std::string name, std::pair<int, int> window_size,
+                        unsigned int fps=60);
 
     void run();
     void set_background_color(int r, int g, int b, int a);
@@ -36,6 +38,7 @@ public:
     bool change_scene(const std::string & id);
 
     inline SDL_Renderer * canvas() { return m_canvas; }
+    inline unsigned int elapsed_time() { return m_timer.elapsed_time(); }
 
 private:
     Game()
@@ -46,6 +49,7 @@ private:
 
     std::string         m_name;
     std::pair<int, int> m_window_size;
+    unsigned int        m_fps;
     State               m_state;
 
     SDL_Window   * m_window;
@@ -55,6 +59,8 @@ private:
     std::unordered_map<std::string, Scene *> m_scenes;
     Scene * m_scene;       // Current Scene
     Scene * m_last_scene;  // Last Scene Played
+
+    Timer m_timer;
 
     bool create_window();
     bool destroy_window();

@@ -7,10 +7,12 @@ using namespace engine;
 
 Game Game::instance;
 
-void Game::set_properties(std::string name, std::pair<int, int> window_size)
+void Game::set_properties(std::string name, std::pair<int, int> window_size,
+                          unsigned int fps)
 {
     m_name = name;
     m_window_size = window_size;
+    m_fps = fps;
 }
 
 bool setup_sdl()
@@ -139,6 +141,9 @@ void Game::run()
         }
         else m_state = State::main_loop_change_scene;
 
+        double frame_time = 1000.0 / static_cast<double>(m_fps);
+        m_timer.start();
+
         while(m_state != State::exit_loop)
         {
             if(handle_scene_changes() == false) break;
@@ -154,7 +159,17 @@ void Game::run()
             m_scene->draw();
 
             SDL_RenderPresent(m_canvas);
+
+            // Frame capping
+            if (frame_time > m_timer.elapsed_time())
+            {
+                SDL_Delay(frame_time - m_timer.elapsed_time());
+            }
+
+            m_timer.step();
         }
+
+        m_timer.stop();
 
         INFO("Cleaning up resources...");
         if(m_scene) m_scene->shutdown();
