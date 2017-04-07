@@ -4,6 +4,8 @@
 
 using namespace engine;
 
+GameObject INVALID_GAME_OBJECT;
+
 bool Scene::add_game_object(GameObject & obj)
 {
     auto id = obj.name();
@@ -51,7 +53,8 @@ bool Scene::init()
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->init() == false) return false;
+        if (obj->state() == GameObject::State::enabled &&
+            obj->init() == false) return false;
     }
 
     return true;
@@ -64,7 +67,8 @@ bool Scene::shutdown()
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->shutdown() == false) return false;
+        if (obj->state() == GameObject::State::enabled &&
+            obj->shutdown() == false) return false;
     }
 
     return true;
@@ -75,7 +79,8 @@ bool Scene::draw()
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->draw() == false) return false;
+        if (obj->state() == GameObject::State::enabled &&
+            obj->draw() == false) return false;
     }
 
     return true;

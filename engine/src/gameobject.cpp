@@ -1,4 +1,3 @@
-
 #include "gameobject.hpp"
 
 #include "log.h"
@@ -13,7 +12,8 @@ bool GameObject::init()
     {
         for (auto component: id_componentlist.second)
         {
-            if(component->init() == false) return false;
+            if(component->state() == Component::State::enabled &&
+               component->init() == false) return false;
         }
     }
 
@@ -28,7 +28,8 @@ bool GameObject::shutdown()
     {
         for (auto component: id_componentlist.second)
         {
-            if(component->shutdown() == false) return false;
+            if(component->state() == Component::State::enabled &&
+               component->shutdown() == false) return false;
         }
     }
 
@@ -39,7 +40,8 @@ bool GameObject::draw()
 {
     for(auto component: m_components[std::type_index(typeid(ImageComponent))])
     {
-        (dynamic_cast<ImageComponent *>(component))->draw();
+        if(component->state() == Component::State::enabled)
+            (dynamic_cast<ImageComponent *>(component))->draw();
     }
 
     return true;
@@ -52,4 +54,3 @@ bool GameObject::add_component(Component & component)
 
     return true;
 }
-

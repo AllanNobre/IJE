@@ -15,6 +15,16 @@ static const std::pair<int, int> DEFAULT_WINDOW_SIZE(100, 100);
 
 class Game {
 public:
+    enum class State {
+        created,
+        init,
+        main_loop,
+        main_loop_change_scene,
+        exit_loop,
+        paused,
+        shutdown
+    };
+
     static Game instance;
 
     void set_properties(std::string name, std::pair<int, int> window_size);
@@ -30,12 +40,13 @@ public:
 private:
     Game()
         : m_name(DEFAULT_GAME_NAME), m_window_size(DEFAULT_WINDOW_SIZE),
-          m_window(NULL), m_canvas(NULL),
+          m_state(State::created), m_window(NULL), m_canvas(NULL),
           m_background_color({0xff, 0xff, 0xff, 0xff}),
-          m_scene(NULL), m_last_scene(NULL), m_scene_changing(false) {}
+          m_scene(NULL), m_last_scene(NULL) {}
 
     std::string         m_name;
     std::pair<int, int> m_window_size;
+    State               m_state;
 
     SDL_Window   * m_window;
     SDL_Renderer * m_canvas;
@@ -44,7 +55,6 @@ private:
     std::unordered_map<std::string, Scene *> m_scenes;
     Scene * m_scene;       // Current Scene
     Scene * m_last_scene;  // Last Scene Played
-    bool m_scene_changing;   // Flags change of scenes
 
     bool create_window();
     bool destroy_window();

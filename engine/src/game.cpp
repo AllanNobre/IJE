@@ -32,6 +32,20 @@ bool setup_sdl()
         return false;
     }
 
+    INFO("Init TTF");
+    if(TTF_Init() == -1)
+    {
+        SDL_TTF_ERROR("TTF_Init");
+        return false;
+    }
+
+    INFO("Open audio Mixer");
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        SDL_MIX_ERROR("Mix_OpenAudio");
+        return false;
+    }
+
     return true;
 }
 
@@ -79,6 +93,12 @@ bool teardown_sdl()
 {
     INFO("Teardown SDL");
 
+    INFO("Quit SDL Mix");
+    Mix_Quit();
+
+    INFO("Quit SDL TTF");
+    TTF_Quit();
+
     INFO("Quit SDL IMG");
     IMG_Quit();
 
@@ -105,27 +125,28 @@ void Game::run()
 {
     INFO("Game " << m_name << "Setup");
 
+    m_state = State::init;
+
     if (setup_sdl() && create_window())
     {
         INFO("Start game loop");
-
-        // ===== Main Loop =====
-        bool close_game = false;
+        m_state = State::main_loop;
 
         if (m_scene == NULL)
         {
             WARN("No scenes to run!");
-            close_game = true;
+            m_state = State::exit_loop;
         }
+        else m_state = State::main_loop_change_scene;
 
-        while(!close_game)
+        while(m_state != State::exit_loop)
         {
             if(handle_scene_changes() == false) break;
 
             SDL_Event evt;
             while(SDL_PollEvent(&evt) != 0)
             {
-                if (evt.type == SDL_QUIT) close_game = true;
+                if (evt.type == SDL_QUIT) m_state = State::exit_loop;
             }
 
             SDL_RenderClear(m_canvas);
@@ -136,9 +157,11 @@ void Game::run()
         }
 
         INFO("Cleaning up resources...");
+        if(m_scene) m_scene->shutdown();
     }
 
     INFO("Game Shutdown");
+    m_state = State::shutdown;
     destroy_window();
     teardown_sdl();
 }
@@ -188,13 +211,13 @@ bool Game::change_scene(const std::string & id)
 
     m_last_scene = m_scene;
     m_scene = m_scenes[id];
-    m_scene_changing = true;
+    m_state = State::main_loop_change_scene;
     return true;
 }
 
 bool Game::handle_scene_changes()
 {
-    if (m_scene_changing)
+    if (m_state == State::main_loop_change_scene)
     {
         if (m_scene == NULL)
         {
@@ -210,7 +233,7 @@ bool Game::handle_scene_changes()
             if(m_last_scene) m_last_scene->shutdown();
             m_scene->init();
 
-            m_scene_changing = false;
+            m_state = State::main_loop;
         }
     }
 

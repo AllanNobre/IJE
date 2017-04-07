@@ -12,13 +12,18 @@
 
 namespace engine {
 
-static const std::string INVALID_GAME_OBJECT_NAME = "INVALID_GAME_OBJECT";
-
 class GameObject {
 public:
-    GameObject() : GameObject(INVALID_GAME_OBJECT_NAME) {}
-    GameObject(std::string name)
-        : x(0), y(0), w(0), h(0), rotation(0), m_name(name) {}
+    enum class State {
+        enabled,
+        disabled,
+        invalid
+    };
+
+    GameObject() : GameObject("", State::invalid) {}
+    GameObject(std::string name, State state=State::enabled)
+        : x(0), y(0), w(0), h(0), rotation(0), m_name(name),
+          m_state(state) {}
 
     virtual ~GameObject() {}
 
@@ -30,6 +35,7 @@ public:
     bool add_component(Component & component);
 
     inline std::string name()  const { return m_name; }
+    inline State       state() const { return m_state; }
 
     inline void set_size(int _w, int _h) { w = _w; h = _h; }
 
@@ -39,12 +45,9 @@ public:
 
 private:
     std::string m_name;
+    State       m_state;
     std::unordered_map<std::type_index, std::list<Component *> > m_components;
 };
-
-// INVALID_GAME_OBJECT represents a not valid game object. Used in returns to
-// represent an error instead of raising an exception.
-static GameObject INVALID_GAME_OBJECT;
 
 }
 

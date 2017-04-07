@@ -8,12 +8,18 @@
 
 namespace engine {
 
-static const std::string INVALID_SCENE_NAME = "INVALID_SCENE";
-
 class Scene {
 public:
-    Scene(std::string name=INVALID_SCENE_NAME)
-        : m_name(name) {}
+    enum class State {
+        created,
+        loaded,
+        playing,
+        invalid
+    };
+
+    Scene() : Scene("", State::invalid) {}
+    Scene(std::string name, State _state=State::created)
+        : m_name(name), m_state(_state) {}
 
     virtual ~Scene() {}
 
@@ -28,9 +34,11 @@ public:
 
     inline std::string name() const { return m_name; }
 
-protected:
-    std::string m_name;
+private:
+    std::string                                 m_name;
     std::unordered_map<std::string, GameObject *> m_objects;
+
+    State m_state;
 };
 
 }
