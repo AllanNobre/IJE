@@ -2,6 +2,13 @@
 #define __ENGINE_GAME_OBJECT__
 
 #include <string>
+#include <list>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+
+#include "component.hpp"
+#include "imagecomponent.hpp"
 
 namespace engine {
 
@@ -20,6 +27,8 @@ public:
 
     virtual bool draw();
 
+    bool add_component(Component & component);
+
     inline std::string name()  const { return m_name; }
 
     inline void set_size(int _w, int _h) { w = _w; h = _h; }
@@ -30,6 +39,7 @@ public:
 
 private:
     std::string m_name;
+    std::unordered_map<std::type_index, std::list<Component *> > m_components;
 };
 
 // INVALID_GAME_OBJECT represents a not valid game object. Used in returns to
