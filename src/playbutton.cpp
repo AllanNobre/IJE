@@ -1,11 +1,11 @@
-#include "menuscene.hpp"
+#include "playbutton.hpp"
 
 #include "log.h"
 #include "sdl_log.h"
 
-bool MenuScene::init(SDL_Renderer * canvas)
+bool PlayButton::init(SDL_Renderer * canvas)
 {
-    engine::Scene::init(canvas);
+    engine::GameObject::init(canvas);
 
     // ===== Load Texture =====
     INFO("Load Texture");
@@ -27,8 +27,8 @@ bool MenuScene::init(SDL_Renderer * canvas)
         return false;
     }
 
-    m_w = image->w;
-    m_h = image->h;
+    w = image->w;
+    h = image->h;
 
     SDL_FreeSurface(image);
     image = NULL;
@@ -36,9 +36,9 @@ bool MenuScene::init(SDL_Renderer * canvas)
     return true;
 }
 
-bool MenuScene::shutdown()
+bool PlayButton::shutdown()
 {
-    engine::Scene::shutdown();
+    engine::GameObject::shutdown();
 
     INFO("Destroy texture");
     SDL_DestroyTexture(m_texture);
@@ -47,9 +47,9 @@ bool MenuScene::shutdown()
     return true;
 }
 
-bool MenuScene::draw(SDL_Renderer * canvas)
+bool PlayButton::draw(SDL_Renderer * canvas)
 {
-    SDL_Rect renderQuad = {10, 10, m_w, m_h};
+    SDL_Rect renderQuad = {x, y, w, h};
     SDL_RenderCopy(canvas, m_texture, NULL, &renderQuad);
 
     return true;

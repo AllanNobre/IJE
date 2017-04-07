@@ -2,7 +2,9 @@
 #define __ENGINE_SCENE__
 
 #include <string>
+#include <unordered_map>
 
+#include "gameobject.hpp"
 #include "sdl2include.h"
 
 namespace engine {
@@ -12,10 +14,13 @@ static const std::string INVALID_SCENE_NAME = "INVALID_SCENE";
 class Scene {
 public:
     Scene(std::string name=INVALID_SCENE_NAME)
-        : m_name(name),
-          m_texture(NULL), m_w(0), m_h(0) {}
+        : m_name(name) {}
 
     virtual ~Scene() {}
+
+    bool add_game_object(GameObject & obj);
+    GameObject & get_game_object(const std::string & id);
+    bool remove_game_object(const std::string & id);
 
     virtual bool init(SDL_Renderer * canvas);
     virtual bool shutdown();
@@ -26,9 +31,7 @@ public:
 
 protected:
     std::string m_name;
-
-    SDL_Texture * m_texture; // Abstraction for several objects
-    int m_w, m_h;
+    std::unordered_map<std::string, GameObject *> m_objects;
 };
 
 }
