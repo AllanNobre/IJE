@@ -29,7 +29,7 @@ public:
     virtual bool init();
     virtual bool shutdown();
 
-    virtual bool draw();
+    virtual void draw();
 
     bool add_component(Component & component);
 

@@ -38,7 +38,7 @@ bool GameObject::shutdown()
     return true;
 }
 
-bool GameObject::draw()
+void GameObject::draw()
 {
     for(auto component: m_components[std::type_index(typeid(ImageComponent))])
     {
@@ -51,8 +51,6 @@ bool GameObject::draw()
         if(component->state() == Component::State::enabled)
             (dynamic_cast<TextComponent *>(component))->draw();
     }
-
-    return true;
 }
 
 bool GameObject::add_component(Component & component)

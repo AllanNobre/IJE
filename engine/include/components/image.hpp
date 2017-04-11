@@ -2,7 +2,6 @@
 #define __ENGINE_COMPONENTS_IMAGE__
 
 #include <string>
-#include <utility>
 
 #include "sdl2include.h"
 

@@ -30,7 +30,7 @@ public:
     virtual bool init();
     virtual bool shutdown();
 
-    virtual bool draw();
+    virtual void draw();
 
     inline std::string name() const { return m_name; }
 

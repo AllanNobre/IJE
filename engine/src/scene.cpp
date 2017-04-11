@@ -53,8 +53,11 @@ bool Scene::init()
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->state() == GameObject::State::enabled &&
-            obj->init() == false) return false;
+        if (obj->init() == false)
+        {
+            WARN("Could not init game object " << obj->name());
+            return false;
+        }
     }
 
     return true;
@@ -67,21 +70,20 @@ bool Scene::shutdown()
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->state() == GameObject::State::enabled &&
-            obj->shutdown() == false) return false;
+        if (obj->shutdown() == false)
+        {
+            WARN("Could not shutdown game object " << obj->name());
+        }
     }
 
     return true;
 }
 
-bool Scene::draw()
+void Scene::draw()
 {
     for (auto id_obj: m_objects)
     {
         auto obj = id_obj.second;
-        if (obj->state() == GameObject::State::enabled &&
-            obj->draw() == false) return false;
+        if (obj->state() == GameObject::State::enabled) obj->draw();
     }
-
-    return true;
 }
