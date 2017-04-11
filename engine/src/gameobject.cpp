@@ -60,5 +60,8 @@ bool GameObject::add_component(Component & component)
     INFO("Adding component to game object " << m_name);
     m_components[std::type_index(typeid(component))].push_back(&component);
 
+    component.m_game_object = this;
+    component.m_state = Component::State::enabled;
+
     return true;
 }

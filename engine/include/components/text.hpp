@@ -15,14 +15,13 @@ class TextComponent : public Component {
 public:
 
     TextComponent(
-        GameObject & game_object,
-        std::string  text,
-        std::string  font_path,
-        int          font_size,
+        std::string  text="",
+        std::string  font_path="",
+        int          font_size=42,
         Color        color=Color(),
         Color        background_color=Color(0x0, 0x0, 0x0, 0x00)
     )
-        : Component(game_object), m_text(text), m_font_path(font_path),
+        : Component(), m_text(text), m_font_path(font_path),
           m_font_size(font_size), m_color(color),
           m_background_color(background_color), m_texture(NULL), m_font(NULL),
           m_w(0), m_h(0) {}

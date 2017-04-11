@@ -7,9 +7,9 @@
 #include <typeinfo>
 #include <unordered_map>
 
-#include "components/component.hpp"
-
 namespace engine {
+
+class Component;
 
 class GameObject {
 public:

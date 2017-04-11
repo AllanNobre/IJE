@@ -1,11 +1,13 @@
 #ifndef __ENGINE_COMPONENTS_COMPONENT__
 #define __ENGINE_COMPONENTS_COMPONENT__
 
+#include "gameobject.hpp"
+
 namespace engine {
 
-class GameObject;
-
 class Component {
+    friend bool GameObject::add_component(Component & component);
+
 public:
     enum class State {
         enabled,
@@ -14,8 +16,6 @@ public:
     };
 
     Component() : m_game_object(NULL), m_state(State::invalid) {}
-    Component(GameObject & game_object)
-        : m_game_object(&game_object), m_state(State::enabled) {}
 
     virtual ~Component() {}
 

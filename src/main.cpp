@@ -18,8 +18,8 @@ int main(int, char**)
     Game::instance.add_scene(menu);
 
     GameObject playButton("Play Button");
-    ImageComponent playButtonImage(playButton, "assets/sprites/playbutton.png");
-    TextComponent text(playButton, "Bem Vindo!", "assets/fonts/font.ttf", 42);
+    ImageComponent playButtonImage("assets/sprites/playbutton.png");
+    TextComponent text("Bem Vindo!", "assets/fonts/font.ttf", 42);
     text.enable_high_quality();
 
     playButton.add_component(playButtonImage);
