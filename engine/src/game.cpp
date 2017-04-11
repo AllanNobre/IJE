@@ -209,7 +209,7 @@ bool Game::add_scene(Scene & scene)
 
     m_scenes[id] = &scene;
 
-    if (m_scene == NULL) change_scene(id);
+    if (m_scene == NULL) m_scene = &scene;
 
     return true;
 }

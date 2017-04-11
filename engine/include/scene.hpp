@@ -34,7 +34,7 @@ public:
 
     inline std::string name() const { return m_name; }
 
-private:
+protected:
     std::string                                 m_name;
     std::unordered_map<std::string, GameObject *> m_objects;
 

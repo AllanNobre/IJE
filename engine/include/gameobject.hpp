@@ -42,7 +42,7 @@ public:
     int    w, h;
     double rotation;
 
-private:
+protected:
     std::string m_name;
     State       m_state;
     std::unordered_map<std::type_index, std::list<Component *> > m_components;
