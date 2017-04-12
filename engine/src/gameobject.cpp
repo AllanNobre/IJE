@@ -1,5 +1,6 @@
 #include "gameobject.hpp"
 
+#include "components/animation.hpp"
 #include "components/text.hpp"
 #include "components/image.hpp"
 #include "log.h"
@@ -38,19 +39,21 @@ bool GameObject::shutdown()
     return true;
 }
 
+template<typename T>
+void GameObject::generic_draw()
+{
+    for(auto component: m_components[std::type_index(typeid(T))])
+    {
+        if(component->state() == Component::State::enabled)
+            (dynamic_cast<T *>(component))->draw();
+    }
+}
+
 void GameObject::draw()
 {
-    for(auto component: m_components[std::type_index(typeid(ImageComponent))])
-    {
-        if(component->state() == Component::State::enabled)
-            (dynamic_cast<ImageComponent *>(component))->draw();
-    }
-
-    for(auto component: m_components[std::type_index(typeid(TextComponent))])
-    {
-        if(component->state() == Component::State::enabled)
-            (dynamic_cast<TextComponent *>(component))->draw();
-    }
+    generic_draw<ImageComponent>();
+    generic_draw<TextComponent>();
+    generic_draw<AnimationComponent>();
 }
 
 bool GameObject::add_component(Component & component)

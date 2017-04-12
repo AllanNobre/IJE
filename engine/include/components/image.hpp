@@ -14,17 +14,22 @@ public:
     ImageComponent(std::string path="")
         : Component(), m_path(path) {}
 
-    ~ImageComponent() {}
+    virtual ~ImageComponent() {}
 
     bool init();
     bool shutdown();
 
-    void draw();
+    virtual void draw();
 
-private:
+protected:
     std::string m_path;
+    int         m_w, m_h;
 
     SDL_Texture * m_texture;
+    SDL_Rect      m_canvas_rect;  // Position and size on canvas
+    SDL_Rect      m_image_rect;   // Position and size inside the image
+
+    void update_canvas_rect();
 };
 
 }

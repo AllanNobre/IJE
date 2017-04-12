@@ -3,6 +3,7 @@
 #include "scene.hpp"
 #include "components/image.hpp"
 #include "components/text.hpp"
+#include "components/animation.hpp"
 
 #include "gameglobals.hpp"
 
@@ -24,7 +25,16 @@ int main(int, char**)
 
     playButton.add_component(playButtonImage);
     playButton.add_component(text);
+
+    GameObject boy("Boy");
+    boy.set_position(200, 200);
+    AnimationComponent boyAnimation("assets/sprites/boy.png", 8, 2, 1.0, true);
+    boyAnimation.set_end_frame(7);
+    //boyAnimation.set_frame_range(3, 9);
+
     menu.add_game_object(playButton);
+    boy.add_component(boyAnimation);
+    menu.add_game_object(boy);
 
     // Game loop
     Game::instance.run();

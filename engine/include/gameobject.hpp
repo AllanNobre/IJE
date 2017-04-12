@@ -36,6 +36,7 @@ public:
     inline std::string name()  const { return m_name; }
     inline State       state() const { return m_state; }
 
+    inline void set_position(int _x, int _y) { x = _x; y = _y; }
     inline void set_size(int _w, int _h) { w = _w; h = _h; }
 
     int    x, y;
@@ -46,6 +47,8 @@ protected:
     std::string m_name;
     State       m_state;
     std::unordered_map<std::type_index, std::list<Component *> > m_components;
+
+    template<typename T> void generic_draw();
 };
 
 }

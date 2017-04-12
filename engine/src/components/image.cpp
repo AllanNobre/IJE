@@ -32,7 +32,16 @@ bool ImageComponent::init()
         return false;
     }
 
-    m_game_object->set_size(image->w, image->h);
+    m_w = image->w;
+    m_h = image->h;
+
+    m_game_object->set_size(m_w, m_h);
+    update_canvas_rect();
+
+    m_image_rect.x = 0;
+    m_image_rect.y = 0;
+    m_image_rect.w = m_w;
+    m_image_rect.h = m_h;
 
     SDL_FreeSurface(image);
     return true;
@@ -50,12 +59,18 @@ bool ImageComponent::shutdown()
 
 void ImageComponent::draw()
 {
-    SDL_Rect renderQuad = {
-        m_game_object->x,
-        m_game_object->y,
-        m_game_object->w,
-        m_game_object->h
-    };
+    update_canvas_rect();
 
-    SDL_RenderCopy(Game::instance.canvas(), m_texture, NULL, &renderQuad);
+    SDL_RenderCopy(Game::instance.canvas(), m_texture,
+                   &m_image_rect, &m_canvas_rect);
+}
+
+
+
+void ImageComponent::update_canvas_rect()
+{
+    m_canvas_rect.x = m_game_object->x;
+    m_canvas_rect.y = m_game_object->y;
+    m_canvas_rect.w = m_game_object->w;
+    m_canvas_rect.h = m_game_object->h;
 }
