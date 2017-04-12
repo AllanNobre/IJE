@@ -29,6 +29,7 @@ public:
     virtual bool init();
     virtual bool shutdown();
 
+    virtual void update();
     virtual void draw();
 
     bool add_component(Component & component);
@@ -47,8 +48,6 @@ protected:
     std::string m_name;
     State       m_state;
     std::unordered_map<std::type_index, std::list<Component *> > m_components;
-
-    template<typename T> void generic_draw();
 };
 
 }

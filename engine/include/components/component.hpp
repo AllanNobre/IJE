@@ -22,6 +22,7 @@ public:
     virtual bool init() { return true; }
     virtual bool shutdown() { return true; }
     virtual void update() { return; }
+    virtual void draw() { return; }
 
     inline State state() { return m_state; }
 

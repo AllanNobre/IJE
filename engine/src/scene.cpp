@@ -79,6 +79,15 @@ bool Scene::shutdown()
     return true;
 }
 
+void Scene::update()
+{
+    for (auto id_obj: m_objects)
+    {
+        auto obj = id_obj.second;
+        if (obj->state() == GameObject::State::enabled) obj->update();
+    }
+}
+
 void Scene::draw()
 {
     for (auto id_obj: m_objects)

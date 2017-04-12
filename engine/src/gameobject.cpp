@@ -15,8 +15,7 @@ bool GameObject::init()
     {
         for (auto component: id_componentlist.second)
         {
-            if(component->state() == Component::State::enabled &&
-               component->init() == false) return false;
+            if(component->init() == false) return false;
         }
     }
 
@@ -31,29 +30,35 @@ bool GameObject::shutdown()
     {
         for (auto component: id_componentlist.second)
         {
-            if(component->state() == Component::State::enabled &&
-               component->shutdown() == false) return false;
+            if(component->shutdown() == false) return false;
         }
     }
 
     return true;
 }
 
-template<typename T>
-void GameObject::generic_draw()
+void GameObject::update()
 {
-    for(auto component: m_components[std::type_index(typeid(T))])
+    for(auto id_componentlist: m_components)
     {
-        if(component->state() == Component::State::enabled)
-            (dynamic_cast<T *>(component))->draw();
+        for (auto component: id_componentlist.second)
+        {
+            if(component->state() == Component::State::enabled)
+                component->update();
+        }
     }
 }
 
 void GameObject::draw()
 {
-    generic_draw<ImageComponent>();
-    generic_draw<TextComponent>();
-    generic_draw<AnimationComponent>();
+    for(auto id_componentlist: m_components)
+    {
+        for (auto component: id_componentlist.second)
+        {
+            if(component->state() == Component::State::enabled)
+                component->draw();
+        }
+    }
 }
 
 bool GameObject::add_component(Component & component)

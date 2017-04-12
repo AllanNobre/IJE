@@ -154,6 +154,8 @@ void Game::run()
                 if (evt.type == SDL_QUIT) m_state = State::exit_loop;
             }
 
+            m_scene->update();
+
             SDL_RenderClear(m_canvas);
 
             m_scene->draw();
