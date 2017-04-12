@@ -37,15 +37,18 @@ public:
     bool add_scene(Scene & scene);
     bool change_scene(const std::string & id);
 
+    inline std::pair<int, int> window_size() { return m_window_size; }
     inline SDL_Renderer * canvas() { return m_canvas; }
-    inline unsigned int elapsed_time() { return m_timer.elapsed_time(); }
+
+    inline unsigned int elapsed_time() { return m_elapsed_time; }
+    inline double elapsed_time_seconds() { return m_elapsed_time / 1000.0; }
 
 private:
     Game()
         : m_name(DEFAULT_GAME_NAME), m_window_size(DEFAULT_WINDOW_SIZE),
           m_state(State::created), m_window(NULL), m_canvas(NULL),
           m_background_color({0xff, 0xff, 0xff, 0xff}),
-          m_scene(NULL), m_last_scene(NULL) {}
+          m_scene(NULL), m_last_scene(NULL), m_elapsed_time(0) {}
 
     std::string         m_name;
     std::pair<int, int> m_window_size;
@@ -61,6 +64,7 @@ private:
     Scene * m_last_scene;  // Last Scene Played
 
     Timer m_timer;
+    unsigned int m_elapsed_time;
 
     bool create_window();
     bool destroy_window();

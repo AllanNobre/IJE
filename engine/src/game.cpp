@@ -163,11 +163,12 @@ void Game::run()
             SDL_RenderPresent(m_canvas);
 
             // Frame capping
-            if (frame_time > m_timer.elapsed_time())
+            if (frame_time > m_elapsed_time)
             {
-                SDL_Delay(frame_time - m_timer.elapsed_time());
+                SDL_Delay(frame_time - m_elapsed_time);
             }
 
+            m_elapsed_time = m_timer.elapsed_time();
             m_timer.step();
         }
 
