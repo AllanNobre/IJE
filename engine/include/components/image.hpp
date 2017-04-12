@@ -16,9 +16,8 @@ public:
 
     virtual ~ImageComponent() {}
 
-    bool init();
-    bool shutdown();
-
+    virtual bool init();
+    virtual bool shutdown();
     virtual void draw();
 
 protected:

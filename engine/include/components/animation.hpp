@@ -18,26 +18,29 @@ public:
           m_start_frame(0), m_end_frame(m_n_frames - 1),
           m_current_frame(m_start_frame) {}
 
-    ~AnimationComponent() {}
+    virtual ~AnimationComponent() {}
 
-    bool init();
-    bool shutdown();
+    virtual bool init();
+    virtual bool shutdown();
+    virtual void draw();
 
-    void draw();
 
     inline void set_frame_range(unsigned int start_frame,
-                                unsigned int end_frame) {
+                                unsigned int end_frame)
+    {
         m_start_frame = start_frame;
         m_end_frame = end_frame;
     }
-    inline void set_start_frame(unsigned int start_frame) {
+    inline void set_start_frame(unsigned int start_frame)
+    {
         m_start_frame = start_frame;
     }
-    inline void set_end_frame(unsigned int end_frame) {
+    inline void set_end_frame(unsigned int end_frame)
+    {
         m_end_frame = end_frame;
     }
 
-private:
+protected:
     unsigned int m_n_columns, m_n_rows;
     unsigned int m_duration;
     bool m_loop;

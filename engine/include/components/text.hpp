@@ -26,17 +26,16 @@ public:
           m_background_color(background_color), m_texture(NULL), m_font(NULL),
           m_w(0), m_h(0) {}
 
-    ~TextComponent() {}
+    virtual ~TextComponent() {}
 
-    bool init();
-    bool shutdown();
-
-    void draw();
+    virtual bool init();
+    virtual bool shutdown();
+    virtual void draw();
 
     inline void enable_high_quality()  { m_high_quality = true; }
     inline void disable_high_quality() { m_high_quality = false; }
 
-private:
+protected:
     std::string m_text;
     std::string m_font_path;
     int         m_font_size;
