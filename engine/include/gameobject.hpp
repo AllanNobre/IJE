@@ -37,11 +37,11 @@ public:
     inline std::string name()  const { return m_name; }
     inline State       state() const { return m_state; }
 
-    inline void set_position(int _x, int _y) { x = _x; y = _y; }
-    inline void set_size(int _w, int _h) { w = _w; h = _h; }
+    inline void set_position(double _x, double _y) { x = _x; y = _y; }
+    inline void set_size(double _w, double _h) { w = _w; h = _h; }
 
-    int    x, y;
-    int    w, h;
+    double x, y;
+    double w, h;
     double rotation;
 
 protected:

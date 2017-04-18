@@ -88,8 +88,8 @@ bool TextComponent::shutdown()
 void TextComponent::draw()
 {
     SDL_Rect renderQuad = {
-        m_game_object->x,
-        m_game_object->y,
+        static_cast<int>(m_game_object->x),
+        static_cast<int>(m_game_object->y),
         m_w,
         m_h
     };
