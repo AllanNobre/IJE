@@ -6,6 +6,7 @@
 #include "components/animation.hpp"
 
 #include "gameglobals.hpp"
+#include "movesidetoside.hpp"
 
 using namespace engine;
 
@@ -31,6 +32,9 @@ int main(int, char**)
     AnimationComponent boyAnimation("assets/sprites/boy.png", 8, 2, 1.0, true);
     boyAnimation.set_end_frame(7);
     //boyAnimation.set_frame_range(3, 9);
+
+    MoveSideToSide movesidetoside;
+    boy.add_component(movesidetoside);
 
     menu.add_game_object(playButton);
     boy.add_component(boyAnimation);
