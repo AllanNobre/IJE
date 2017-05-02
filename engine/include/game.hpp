@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 
+#include "input.hpp"
 #include "scene.hpp"
 #include "sdl2include.h"
 #include "timer.hpp"
@@ -39,6 +40,7 @@ public:
 
     inline std::pair<int, int> window_size() { return m_window_size; }
     inline SDL_Renderer * canvas() { return m_canvas; }
+    inline const InputManager & input_manager() const { return m_input_manager; }
 
     inline unsigned int elapsed_time() { return m_elapsed_time; }
     inline double elapsed_time_seconds() { return m_elapsed_time / 1000.0; }
@@ -65,6 +67,8 @@ private:
 
     Timer m_timer;
     unsigned int m_elapsed_time;
+
+    InputManager m_input_manager;
 
     bool create_window();
     bool destroy_window();

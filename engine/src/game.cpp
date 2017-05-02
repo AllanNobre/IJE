@@ -151,7 +151,16 @@ void Game::run()
             SDL_Event evt;
             while(SDL_PollEvent(&evt) != 0)
             {
-                if (evt.type == SDL_QUIT) m_state = State::exit_loop;
+                switch(evt.type)
+                {
+                    case SDL_QUIT:
+                        m_state = State::exit_loop;
+                        break;
+                    case SDL_KEYDOWN:
+                    case SDL_KEYUP:
+                        m_input_manager.gather_input(evt);
+                        break;
+                }
             }
 
             m_scene->update();
@@ -161,6 +170,8 @@ void Game::run()
             m_scene->draw();
 
             SDL_RenderPresent(m_canvas);
+
+            m_input_manager.clear_input();
 
             // Frame capping
             if (frame_time > m_elapsed_time)

@@ -15,6 +15,10 @@ public:
 
     void update()
     {
+        if(engine::Game::instance.input_manager().is_button_down("w")) {
+            INFO("W is down");
+        }
+
         auto dx = velocity * engine::Game::instance.elapsed_time_seconds();
         if (!right) dx *= -1;
 
