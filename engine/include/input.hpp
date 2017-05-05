@@ -20,14 +20,15 @@ public:
     bool is_button_down(const std::string & button_name) const;
     bool is_button_up(const std::string & button_name) const;
 
+    std::pair<int, int> get_mouse_position() const;
+
 private:
-    std::unordered_map<std::string, SDL_Keycode> m_buttons;
+    std::unordered_map<std::string, int> m_buttons;
 
     std::list<SDL_Event> m_updated;
 
+    void create_mouse_mapping();
     void create_keyboard_mapping();
-    bool is_button_generic(const std::string & button_name,
-                           unsigned int action_type) const;
 };
 
 }

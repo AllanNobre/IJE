@@ -156,8 +156,7 @@ void Game::run()
                     case SDL_QUIT:
                         m_state = State::exit_loop;
                         break;
-                    case SDL_KEYDOWN:
-                    case SDL_KEYUP:
+                    default:
                         m_input_manager.gather_input(evt);
                         break;
                 }

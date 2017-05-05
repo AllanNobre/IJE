@@ -6,6 +6,7 @@ using namespace engine;
 
 InputManager::InputManager()
 {
+    create_mouse_mapping();
     create_keyboard_mapping();
 }
 
@@ -19,27 +20,63 @@ void InputManager::gather_input(SDL_Event event)
     m_updated.push_back(event);
 }
 
-bool InputManager::is_button_generic(const std::string & button_name,
-                                     unsigned int action_type) const {
+bool InputManager::is_button_down(const std::string & button_name) const
+{
     auto button_id = m_buttons.at(button_name);
     for(auto evt: m_updated)
     {
-        if (button_id == evt.key.keysym.sym) {
-            return evt.type == action_type;
+        switch(evt.type) {
+            case SDL_KEYDOWN:
+                if (button_id == evt.key.keysym.sym)
+                    return true;
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                if (button_id == evt.button.button)
+                    return true;
+                break;
         }
     }
 
     return false;
 }
 
-bool InputManager::is_button_down(const std::string & button_name) const
-{
-    return is_button_generic(button_name, SDL_KEYDOWN);
-}
-
 bool InputManager::is_button_up(const std::string & button_name) const
 {
-    return is_button_generic(button_name, SDL_KEYUP);
+    auto button_id = m_buttons.at(button_name);
+    for(auto evt: m_updated)
+    {
+        switch(evt.type) {
+            case SDL_KEYUP:
+                if (button_id == evt.key.keysym.sym)
+                    return true;
+                break;
+
+            case SDL_MOUSEBUTTONUP:
+                if (button_id == evt.button.button)
+                    return true;
+                break;
+        }
+    }
+
+    return false;
+}
+
+std::pair<int, int> InputManager::get_mouse_position() const
+{
+    std::pair<int, int> point;
+    SDL_GetMouseState(&point.first, &point.second);
+
+    return point;
+}
+
+void InputManager::create_mouse_mapping()
+{
+    INFO("InputManager: creating mouse mapping");
+
+    m_buttons["mouse left button"] = SDL_BUTTON_LEFT;
+    m_buttons["mouse right button"] = SDL_BUTTON_RIGHT;
+    m_buttons["mouse middle button"] = SDL_BUTTON_MIDDLE;
 }
 
 void InputManager::create_keyboard_mapping()
