@@ -32,9 +32,9 @@ public:
             right = !right;
 
             if (!right)
-                animCtrl->play_animation_after_animation("running left");
+                animCtrl->play_animation("running left");
             else
-                animCtrl->play_animation_after_animation("running right");
+                animCtrl->play_animation("running right");
         }
 
         m_game_object->x = dx;

@@ -32,17 +32,8 @@ void AnimationControllerComponent::update()
     else
     {
         auto animation = m_animations_map[current_animation];
-        if (next_animation != "" && animation->has_finished())
-        {
-            animation->disable();
-
-            current_animation = next_animation;
-            next_animation = "";
-
-            animation = m_animations_map[current_animation];
-            animation->enable();
-            animation->setup();
-        }
+        if(next_animation != "" && animation->has_finished())
+            change_animations();
     }
 }
 
@@ -59,4 +50,24 @@ void AnimationControllerComponent::add_animation(std::string name,
 
     if (m_animations_map.size() == 1)
         current_animation = name;
+}
+
+void AnimationControllerComponent::play_animation(std::string name,
+                                                  bool wait_to_finish)
+{
+    next_animation = name;
+    if (!wait_to_finish) change_animations();
+}
+
+void AnimationControllerComponent::change_animations()
+{
+    auto animation = m_animations_map[current_animation];
+    animation->disable();
+
+    current_animation = next_animation;
+    next_animation = "";
+
+    animation = m_animations_map[current_animation];
+    animation->enable();
+    animation->setup();
 }

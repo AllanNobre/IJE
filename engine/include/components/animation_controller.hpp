@@ -20,15 +20,14 @@ public:
 
     void add_animation(std::string name, AnimationComponent & animation);
 
-    inline void play_animation(std::string name)
-        { current_animation = name; }
-    inline void play_animation_after_animation(std::string name)
-        { next_animation = name; }
+    void play_animation(std::string name, bool wait_to_finish=false);
 
 private:
     std::unordered_map<std::string, AnimationComponent *> m_animations_map;
     std::string current_animation;
     std::string next_animation;
+
+    void change_animations();
 };
 
 
