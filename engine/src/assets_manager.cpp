@@ -91,3 +91,44 @@ TTF_Font * AssetsManager::load_font(std::string path, int size, bool use_base)
 
     return m_fonts[path_size];
 }
+
+Mix_Music * AssetsManager::load_music(std::string path, bool use_base)
+{
+    if(use_base)
+        path = m_base_path + "sounds/" + path;
+
+    if (m_musics.find(path) == m_musics.end())
+    {
+        Mix_Music * music = Mix_LoadMUS(path.c_str());
+        if (music == NULL)
+        {
+            SDL_MIX_ERROR("Could not load music from path " << path);
+            return NULL;
+        }
+
+        m_musics[path] = music;
+    }
+
+    return m_musics[path];
+}
+
+Mix_Chunk * AssetsManager::load_sound(std::string path, bool use_base)
+{
+    if(use_base)
+        path = m_base_path + "sounds/" + path;
+
+    if (m_sounds.find(path) == m_sounds.end())
+    {
+        Mix_Chunk * sound = Mix_LoadWAV(path.c_str());
+        if (sound == NULL)
+        {
+            SDL_MIX_ERROR("Could not load sound from path " << path);
+            return NULL;
+        }
+
+        m_sounds[path] = sound;
+    }
+
+    return m_sounds[path];
+}
+

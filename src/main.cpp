@@ -5,6 +5,7 @@
 #include "components/text.hpp"
 #include "components/animation.hpp"
 #include "components/animation_controller.hpp"
+#include "components/audio.hpp"
 
 #include "gameglobals.hpp"
 #include "movesidetoside.hpp"
@@ -41,6 +42,7 @@ int main(int, char**)
     boyAnimation2.set_frame_range(8, 15);
     animCtrl.add_animation("running left", boyAnimation2);
 
+    AudioComponent bgMusic("music.wav", true);
 
     MoveSideToSide movesidetoside;
     boy.add_component(movesidetoside);
@@ -49,6 +51,7 @@ int main(int, char**)
     boy.add_component(boyAnimation);
     boy.add_component(boyAnimation2);
     boy.add_component(animCtrl);
+    boy.add_component(bgMusic);
     menu.add_game_object(boy);
 
     // Game loop
