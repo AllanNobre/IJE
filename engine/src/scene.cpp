@@ -63,6 +63,14 @@ bool Scene::init()
     return true;
 }
 
+void Scene::setup()
+{
+    INFO("Setup scene " << m_name);
+
+    for (auto id_obj: m_objects)
+        id_obj.second->setup();
+}
+
 bool Scene::shutdown()
 {
     INFO("Shutdown scene " << m_name);

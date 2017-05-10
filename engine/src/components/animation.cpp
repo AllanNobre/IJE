@@ -37,18 +37,21 @@ bool AnimationComponent::init()
     m_sprite_w = m_w / m_n_columns;
     m_sprite_h = m_h / m_n_rows;
 
-    m_game_object->set_size(m_sprite_w, m_sprite_h);
-
     m_image_rect.w = m_sprite_w;
     m_image_rect.h = m_sprite_h;
 
-    INFO("Animation (" << m_path << ") sprite size " << m_sprite_w << "x"
-         << m_sprite_h);
+    INFO("Animation (" << m_path << ") sprite size "
+         << m_sprite_w << "x" << m_sprite_h);
 
     m_frame_time = (unsigned int) std::ceil(double(m_duration) /
                                             double(m_n_frames));
 
     return true;
+}
+
+void AnimationComponent::setup()
+{
+    m_game_object->set_size(m_sprite_w, m_sprite_h);
 }
 
 bool AnimationComponent::shutdown()
@@ -61,9 +64,12 @@ bool AnimationComponent::shutdown()
 
 void AnimationComponent::draw()
 {
+    m_finished = false;
+
     m_playing_duration += Game::instance.elapsed_time();
 
     if (m_playing_duration >= m_duration) {
+        m_finished = true;
         if (m_loop) m_playing_duration -= m_duration;
         else m_playing_duration = m_duration;
     }

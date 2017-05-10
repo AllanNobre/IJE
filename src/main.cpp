@@ -4,6 +4,7 @@
 #include "components/image.hpp"
 #include "components/text.hpp"
 #include "components/animation.hpp"
+#include "components/animation_controller.hpp"
 
 #include "gameglobals.hpp"
 #include "movesidetoside.hpp"
@@ -29,15 +30,25 @@ int main(int, char**)
 
     GameObject boy("Boy");
     boy.set_position(200, 200);
+
+    AnimationControllerComponent animCtrl;
+
     AnimationComponent boyAnimation("assets/sprites/boy.png", 8, 2, 1.0, true);
     boyAnimation.set_end_frame(7);
-    //boyAnimation.set_frame_range(3, 9);
+    animCtrl.add_animation("running right", boyAnimation);
+
+    AnimationComponent boyAnimation2("assets/sprites/boy.png", 8, 2, 1.0, true);
+    boyAnimation2.set_frame_range(8, 15);
+    animCtrl.add_animation("running left", boyAnimation2);
+
 
     MoveSideToSide movesidetoside;
     boy.add_component(movesidetoside);
 
     menu.add_game_object(playButton);
     boy.add_component(boyAnimation);
+    boy.add_component(boyAnimation2);
+    boy.add_component(animCtrl);
     menu.add_game_object(boy);
 
     // Game loop

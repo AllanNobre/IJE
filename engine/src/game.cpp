@@ -260,6 +260,7 @@ bool Game::handle_scene_changes()
 
             if(m_last_scene) m_last_scene->shutdown();
             m_scene->init();
+            m_scene->setup();
 
             m_state = State::main_loop;
         }

@@ -22,6 +22,15 @@ bool GameObject::init()
     return true;
 }
 
+void GameObject::setup()
+{
+    INFO("Setup game object " << m_name);
+
+    for(auto id_componentlist: m_components)
+        for (auto component: id_componentlist.second)
+            component->setup();
+}
+
 bool GameObject::shutdown()
 {
     INFO("Shutdown game object " << m_name);
@@ -71,3 +80,10 @@ bool GameObject::add_component(Component & component)
 
     return true;
 }
+
+template<typename T>
+std::list<Component *> GameObject::get_components()
+{
+    return m_components[std::type_index(typeid(T))];
+}
+

@@ -28,6 +28,7 @@ public:
     bool remove_game_object(const std::string & id);
 
     virtual bool init();
+    virtual void setup();
     virtual bool shutdown();
 
     virtual void update();
