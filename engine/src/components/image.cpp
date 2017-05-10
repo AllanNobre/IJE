@@ -16,22 +16,9 @@ bool ImageComponent::init()
         return false;
     }
 
-    SDL_Surface * image = IMG_Load(m_path.c_str());
+    auto image = Game::instance.assets_manager().load_image(m_path);
 
-    if (image == NULL)
-    {
-        SDL_IMG_ERROR("Could not load image from path " << m_path);
-        return false;
-    }
-
-    m_texture = SDL_CreateTextureFromSurface(Game::instance.canvas(), image);
-
-    if (m_texture == NULL)
-    {
-        SDL_ERROR("Could not create texture from image!");
-        return false;
-    }
-
+    m_texture = image->texture;
     m_w = image->w;
     m_h = image->h;
 
@@ -43,7 +30,6 @@ bool ImageComponent::init()
     m_image_rect.w = m_w;
     m_image_rect.h = m_h;
 
-    SDL_FreeSurface(image);
     return true;
 }
 
@@ -51,7 +37,6 @@ bool ImageComponent::shutdown()
 {
     INFO("Shutdown ImageComponent");
 
-    SDL_DestroyTexture(m_texture);
     m_texture = NULL;
 
     return true;

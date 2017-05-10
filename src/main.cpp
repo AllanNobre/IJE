@@ -21,8 +21,8 @@ int main(int, char**)
     Game::instance.add_scene(menu);
 
     GameObject playButton("Play Button");
-    ImageComponent playButtonImage("assets/sprites/playbutton.png");
-    TextComponent text("Bem Vindo!", "assets/fonts/font.ttf", 42);
+    ImageComponent playButtonImage("playbutton.png");
+    TextComponent text("Bem Vindo!", "font.ttf", 42);
     text.enable_high_quality();
 
     playButton.add_component(playButtonImage);
@@ -33,11 +33,11 @@ int main(int, char**)
 
     AnimationControllerComponent animCtrl;
 
-    AnimationComponent boyAnimation("assets/sprites/boy.png", 8, 2, 1.0, true);
+    AnimationComponent boyAnimation("boy.png", 8, 2, 1.0, true);
     boyAnimation.set_end_frame(7);
     animCtrl.add_animation("running right", boyAnimation);
 
-    AnimationComponent boyAnimation2("assets/sprites/boy.png", 8, 2, 1.0, true);
+    AnimationComponent boyAnimation2("boy.png", 8, 2, 1.0, true);
     boyAnimation2.set_frame_range(8, 15);
     animCtrl.add_animation("running left", boyAnimation2);
 

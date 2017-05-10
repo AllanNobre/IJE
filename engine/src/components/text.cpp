@@ -16,13 +16,9 @@ bool TextComponent::init()
         return false;
     }
 
-    m_font = TTF_OpenFont(m_font_path.c_str(), m_font_size);
+    m_font = Game::instance.assets_manager().load_font(m_font_path, m_font_size);
 
-    if(m_font == NULL)
-    {
-        SDL_TTF_ERROR("Could not load font from path " << m_font_path);
-        return false;
-    }
+    if(m_font == NULL) return false;
 
     SDL_Color color = {m_color.r, m_color.g, m_color.b, m_color.a};
     SDL_Color bg_color = {m_background_color.r, m_background_color.g,
@@ -79,7 +75,6 @@ bool TextComponent::shutdown()
     SDL_DestroyTexture(m_texture);
     m_texture = NULL;
 
-    TTF_CloseFont(m_font);
     m_font = NULL;
 
     return true;
