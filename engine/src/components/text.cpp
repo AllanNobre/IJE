@@ -82,9 +82,11 @@ bool TextComponent::shutdown()
 
 void TextComponent::draw()
 {
+    auto position = m_game_object->get_position();
+
     SDL_Rect renderQuad = {
-        static_cast<int>(m_game_object->x),
-        static_cast<int>(m_game_object->y),
+        static_cast<int>(position.first),
+        static_cast<int>(position.second),
         m_w,
         m_h
     };

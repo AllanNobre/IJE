@@ -54,8 +54,10 @@ void ImageComponent::draw()
 
 void ImageComponent::update_canvas_rect()
 {
-    m_canvas_rect.x = m_game_object->x;
-    m_canvas_rect.y = m_game_object->y;
+    auto position = m_game_object->get_position();
+
+    m_canvas_rect.x = position.first;
+    m_canvas_rect.y = position.second;
     m_canvas_rect.w = m_game_object->w;
     m_canvas_rect.h = m_game_object->h;
 }

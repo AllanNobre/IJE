@@ -47,6 +47,14 @@ int main(int, char**)
     MoveSideToSide movesidetoside;
     boy.add_component(movesidetoside);
 
+    GameObject player_info("Player Info");
+    player_info.set_position(-10, 0);
+    TextComponent player_name("Boy Boy", "font.ttf", 23);
+    player_name.enable_high_quality();
+    player_info.add_component(player_name);
+    player_info.set_parent(boy);
+
+    menu.add_game_object(player_info);
     menu.add_game_object(playButton);
     boy.add_component(boyAnimation);
     boy.add_component(boyAnimation2);
