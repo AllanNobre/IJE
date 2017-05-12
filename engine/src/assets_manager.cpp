@@ -25,6 +25,20 @@ bool AssetsManager::shutdown()
     }
     m_fonts.clear();
 
+    INFO("Dealocate musics");
+    for(auto id_music: m_musics)
+    {
+        Mix_FreeMusic(id_music.second);
+    }
+    m_musics.clear();
+
+    INFO("Dealocate sounds");
+    for(auto id_sound: m_sounds)
+    {
+        Mix_FreeChunk(id_sound.second);
+    }
+    m_sounds.clear();
+
     return true;
 }
 
